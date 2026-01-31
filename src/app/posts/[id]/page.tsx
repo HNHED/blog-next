@@ -63,9 +63,9 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
                   <a
                     key={index}
                     href={`#${item.id}`}
-                    className={`block text-sm transition-all hover:text-blue-600 border-l-2 -ml-[2px] ${item.level === 1
+                    className={`block text-sm transition-all hover:text-blue-600 border-l-2 -ml-[2px] ${item.level === 3
                         ? "pl-4 font-bold text-gray-700 border-transparent hover:border-blue-600"
-                        : item.level === 2
+                        : item.level === 4
                           ? "pl-8 text-gray-600 border-transparent hover:border-blue-400 text-xs"
                           : "pl-12 text-gray-500 border-transparent text-[11px]"
                       }`}

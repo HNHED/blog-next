@@ -1,9 +1,17 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* 启用基于 class 的暗色模式 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #1e293b;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
 }
 
 @theme inline {
@@ -13,20 +21,115 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
 }
-/* 调整代码块里面注释的字体颜色 */
 
-/* .prose pre span[style*="color: rgb(92, 99, 112)"] {
-  color: #94a3b8 !important;
-} */
+/* 亮色模式渐变背景 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 120% 100% at 0% 0%, rgba(94, 234, 212, 0.15), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 100% 20%, rgba(99, 179, 237, 0.12), transparent 50%),
+    radial-gradient(ellipse 100% 80% at 20% 100%, rgba(134, 239, 172, 0.1), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(196, 181, 253, 0.06), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark body::before {
+  background:
+    radial-gradient(ellipse 120% 100% at 0% 0%, rgba(20, 184, 166, 0.1), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 100% 20%, rgba(56, 189, 248, 0.06), transparent 50%),
+    radial-gradient(ellipse 80% 60% at 20% 100%, rgba(99, 102, 241, 0.05), transparent 50%);
+}
+
+/* 平滑滚动 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 自定义选中文本样式 */
+::selection {
+  background-color: rgba(20, 184, 166, 0.2);
+  color: inherit;
+}
+
+.dark ::selection {
+  background-color: rgba(20, 184, 166, 0.3);
+}
+
+/* 淡入动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* 文章卡片入场动画 */
+article {
+  animation: fadeInUp 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
