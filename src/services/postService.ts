@@ -1,4 +1,4 @@
-import { Post, CreatePostDto, type UpdatePostDto } from "@/types/post";
+import { Post, CreatePostDto, type UpdatePostDto, type UpdateCoverDto } from "@/types/post";
 import { api } from "@/utils/api";
 
 const API_URL = 'http://localhost:3333';
@@ -30,5 +30,10 @@ export const postService = {
   // 用于删除
   async deletePost(id: string) {
     return api.delete(`/posts/${id}`);
+  },
+
+  // 更新封面配置
+  async updateCover(id: string, data: UpdateCoverDto) {
+    return api.put(`/posts/${id}/cover`, data);
   }
 };

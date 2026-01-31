@@ -1,3 +1,5 @@
+import { CoverConfig } from './cover';
+
 export interface Tag {
   id: number;
   name: string;
@@ -14,12 +16,14 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   tags: Tag[];
+  coverConfig?: CoverConfig | null;  // 封面配置
 }
 
 export interface CreatePostDto {
   title: string;
   content: string;
   tags: string[];
+  coverConfig?: CoverConfig;  // 创建时可选封面配置
 }
 
 export interface UpdatePostDto {
@@ -27,9 +31,12 @@ export interface UpdatePostDto {
   data: CreatePostDto
 }
 
+export interface UpdateCoverDto {
+  coverConfig: CoverConfig;
+}
+
 export interface TocItem {
   text: string;
   level: number;
   id: string;
 }
-

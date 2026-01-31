@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Post } from "@/types/post";
+import CoverPreview from "@/components/cover/CoverPreview";
 
 interface FeaturedPostProps {
   post: Post;
@@ -7,6 +8,7 @@ interface FeaturedPostProps {
 
 export default function FeaturedPost({ post }: FeaturedPostProps) {
   const readingTime = Math.ceil(post.content.length / 500);
+  const firstTag = post.tags[0]?.name;
 
   return (
     <section className="mb-6 sm:mb-10">
@@ -16,13 +18,17 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
       <Link href={`/posts/${post.id}`}>
         <article className="group relative bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300">
           <div className="flex flex-col sm:flex-row">
-            {/* Thumbnail */}
-            <div className="relative w-full sm:w-48 md:w-64 lg:w-72 h-40 sm:h-auto bg-gradient-to-br from-teal-400 to-cyan-500 flex-shrink-0">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg className="w-12 h-12 sm:w-16 sm:h-16 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                </svg>
-              </div>
+            {/* Thumbnail - 使用封面预览 */}
+            <div className="relative w-full sm:w-48 md:w-64 lg:w-72 h-40 sm:h-auto flex-shrink-0">
+              <CoverPreview
+                title={post.title}
+                tag={firstTag}
+                coverConfig={post.coverConfig}
+                className="w-full h-full min-h-[160px]"
+                width={600}
+                height={400}
+                fontScale={1.35}
+              />
               <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
                 <span className="px-2.5 py-1 sm:px-3 bg-white/90 dark:bg-gray-900/90 text-teal-600 dark:text-teal-400 text-xs font-semibold rounded-full">
                   Featured
