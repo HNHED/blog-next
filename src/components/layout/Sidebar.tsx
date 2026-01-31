@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 // 博主信息配置
 const BLOG_OWNER = {
@@ -31,6 +32,10 @@ interface SidebarProps {
 export default function Sidebar({ categories, selectedCategory, onCategorySelect, isOpen, onClose }: SidebarProps) {
   const { data: session } = useSession();
   const isAdmin = !!session;
+  const t = useTranslations();
+  const tNav = useTranslations('nav');
+  const tSidebar = useTranslations('sidebar');
+  const tCommon = useTranslations('common');
 
   return (
     <>
@@ -154,14 +159,14 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-            Article Timeline
+            {tNav('timeline')}
           </span>
         </Link>
 
         {/* Categories */}
         <div className="flex-1 relative z-10">
           <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
-            Categories
+            {tSidebar('categories')}
           </h3>
           <ul className="space-y-2">
             <li>
@@ -174,7 +179,7 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
               >
                 <span className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-gradient-to-r from-gray-400 to-gray-500" />
-                  All Posts
+                  {tSidebar('allPosts')}
                 </span>
                 <span className="text-xs bg-gray-200/80 dark:bg-gray-700/80 px-2 py-0.5 rounded-full">
                   {categories.reduce((sum, cat) => sum + cat.count, 0)}
@@ -209,13 +214,13 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
                 <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                管理员已登录
+                {tCommon('loggedIn')}
               </div>
               <button
                 onClick={() => signOut()}
                 className="w-full px-3 py-2 text-xs text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-all cursor-pointer"
               >
-                退出登录
+                {tCommon('logout')}
               </button>
             </div>
           ) : (
@@ -223,7 +228,7 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
               onClick={() => signIn("github")}
               className="w-full px-3 py-2 text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-all cursor-pointer"
             >
-              管理入口
+              {tSidebar('adminEntry')}
             </button>
           )}
         </div>

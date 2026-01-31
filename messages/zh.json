@@ -1,0 +1,107 @@
+{
+  "common": {
+    "backToHome": "返回首页",
+    "loading": "加载中...",
+    "noData": "暂无数据",
+    "admin": "管理员",
+    "login": "管理入口",
+    "logout": "退出登录",
+    "loggedIn": "管理员已登录",
+    "submit": "提交",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "创建"
+  },
+  "nav": {
+    "home": "首页",
+    "articles": "文章",
+    "about": "关于我",
+    "search": "搜索文章...",
+    "timeline": "文章时间线"
+  },
+  "sidebar": {
+    "categories": "分类",
+    "allPosts": "全部文章",
+    "adminEntry": "管理入口"
+  },
+  "home": {
+    "latestPosts": "最新文章",
+    "minRead": "{minutes} 分钟阅读"
+  },
+  "post": {
+    "tableOfContents": "目录大纲",
+    "noHeadings": "本文无标题",
+    "editCover": "编辑封面",
+    "newPost": "写新文章",
+    "editPost": "编辑文章",
+    "deletePost": "删除文章",
+    "deleteConfirm": "确定要删除这篇文章吗？",
+    "createFailed": "创建失败",
+    "updateFailed": "更新失败",
+    "saveCoverFailed": "保存封面失败，请稍后重试"
+  },
+  "postForm": {
+    "title": "标题",
+    "titlePlaceholder": "输入文章标题...",
+    "content": "内容",
+    "tags": "标签",
+    "tagsPlaceholder": "按回车添加标签",
+    "publish": "发布",
+    "update": "更新",
+    "publishing": "发布中...",
+    "updating": "更新中...",
+    "preview": "预览",
+    "edit": "编辑",
+    "split": "分屏"
+  },
+  "timeline": {
+    "title": "文章时间线",
+    "description": "按时间顺序浏览所有已发布的文章",
+    "articles": "篇文章",
+    "years": "年",
+    "noArticles": "暂无文章",
+    "theBeginning": "这是开始...",
+    "article": "篇文章",
+    "articlePlural": "篇文章"
+  },
+  "cover": {
+    "settings": "封面设置",
+    "template": "模板",
+    "layout": "文字布局",
+    "presetColors": "预设配色",
+    "primaryColor": "主色调",
+    "secondaryColor": "副色调",
+    "textColor": "文字颜色",
+    "coverTitle": "封面标题",
+    "coverTitlePlaceholder": "留空则使用文章标题",
+    "subtitle": "副标题",
+    "subtitlePlaceholder": "留空则使用第一个标签",
+    "icon": "装饰图标",
+    "none": "无",
+    "resetDefault": "重置为默认",
+    "saveCover": "保存封面",
+    "saving": "保存中...",
+    "templates": {
+      "gradient": "渐变",
+      "gradientDesc": "简洁的渐变背景",
+      "pattern": "几何",
+      "patternDesc": "带几何图案的背景",
+      "minimal": "极简",
+      "minimalDesc": "纯色+大字标题",
+      "card": "卡片",
+      "cardDesc": "类小红书卡片风格"
+    },
+    "layouts": {
+      "center": "居中",
+      "left": "左对齐",
+      "bottom": "底部"
+    }
+  },
+  "language": {
+    "switch": "语言",
+    "zh": "中文",
+    "en": "English"
+  }
+}

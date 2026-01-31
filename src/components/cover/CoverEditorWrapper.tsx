@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Post } from '@/types/post';
 import { CoverConfig } from '@/types/cover';
 import { postService } from '@/services/postService';
 import CoverEditor from './CoverEditor';
-import { ImageIcon, X } from 'lucide-react';
+import { ImageIcon } from 'lucide-react';
 
 interface CoverEditorWrapperProps {
   post: Post;
@@ -16,6 +17,7 @@ interface CoverEditorWrapperProps {
 export default function CoverEditorWrapper({ post }: CoverEditorWrapperProps) {
   const { data: session } = useSession();
   const router = useRouter();
+  const t = useTranslations('post');
   const [isEditing, setIsEditing] = useState(false);
 
   // 非管理员不显示
@@ -28,7 +30,7 @@ export default function CoverEditorWrapper({ post }: CoverEditorWrapperProps) {
       router.refresh();
     } catch (error) {
       console.error('保存封面失败:', error);
-      alert('保存封面失败，请稀后重试');
+      alert(t('saveCoverFailed'));
     }
   };
 
@@ -53,7 +55,7 @@ export default function CoverEditorWrapper({ post }: CoverEditorWrapperProps) {
       title="编辑封面"
     >
       <ImageIcon size={16} />
-      <span>编辑封面</span>
+      <span>{t('editCover')}</span>
     </button>
   );
 }

@@ -1,0 +1,107 @@
+{
+  "common": {
+    "backToHome": "Back to Home",
+    "loading": "Loading...",
+    "noData": "No data",
+    "admin": "Admin",
+    "login": "Admin Login",
+    "logout": "Logout",
+    "loggedIn": "Admin logged in",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create"
+  },
+  "nav": {
+    "home": "HOME",
+    "articles": "ARTICLES",
+    "about": "ABOUT ME",
+    "search": "Search articles...",
+    "timeline": "Article Timeline"
+  },
+  "sidebar": {
+    "categories": "Categories",
+    "allPosts": "All Posts",
+    "adminEntry": "Admin Login"
+  },
+  "home": {
+    "latestPosts": "Latest Posts",
+    "minRead": "{minutes} min read"
+  },
+  "post": {
+    "tableOfContents": "Table of Contents",
+    "noHeadings": "No headings in this article",
+    "editCover": "Edit Cover",
+    "newPost": "New Post",
+    "editPost": "Edit Post",
+    "deletePost": "Delete Post",
+    "deleteConfirm": "Are you sure you want to delete this article?",
+    "createFailed": "Failed to create",
+    "updateFailed": "Failed to update",
+    "saveCoverFailed": "Failed to save cover, please try again"
+  },
+  "postForm": {
+    "title": "Title",
+    "titlePlaceholder": "Enter article title...",
+    "content": "Content",
+    "tags": "Tags",
+    "tagsPlaceholder": "Press Enter to add tag",
+    "publish": "Publish",
+    "update": "Update",
+    "publishing": "Publishing...",
+    "updating": "Updating...",
+    "preview": "Preview",
+    "edit": "Edit",
+    "split": "Split"
+  },
+  "timeline": {
+    "title": "Article Timeline",
+    "description": "A chronological archive of all published articles",
+    "articles": "Articles",
+    "years": "Years",
+    "noArticles": "No articles yet",
+    "theBeginning": "The beginning...",
+    "article": "article",
+    "articlePlural": "articles"
+  },
+  "cover": {
+    "settings": "Cover Settings",
+    "template": "Template",
+    "layout": "Text Layout",
+    "presetColors": "Preset Colors",
+    "primaryColor": "Primary",
+    "secondaryColor": "Secondary",
+    "textColor": "Text Color",
+    "coverTitle": "Cover Title",
+    "coverTitlePlaceholder": "Leave empty to use article title",
+    "subtitle": "Subtitle",
+    "subtitlePlaceholder": "Leave empty to use first tag",
+    "icon": "Decoration Icon",
+    "none": "None",
+    "resetDefault": "Reset to Default",
+    "saveCover": "Save Cover",
+    "saving": "Saving...",
+    "templates": {
+      "gradient": "Gradient",
+      "gradientDesc": "Simple gradient background",
+      "pattern": "Geometric",
+      "patternDesc": "Background with geometric patterns",
+      "minimal": "Minimal",
+      "minimalDesc": "Solid color + large title",
+      "card": "Card",
+      "cardDesc": "Card style like social media"
+    },
+    "layouts": {
+      "center": "Center",
+      "left": "Left",
+      "bottom": "Bottom"
+    }
+  },
+  "language": {
+    "switch": "Language",
+    "zh": "中文",
+    "en": "English"
+  }
+}

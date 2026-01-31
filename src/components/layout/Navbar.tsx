@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import ThemeToggle from "./ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
+  const t = useTranslations('nav');
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -34,30 +37,30 @@ export default function Navbar() {
                 href="/"
                 className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
               >
-                HOME
+                {t('home')}
               </Link>
               <Link
                 href="/articles"
                 className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
               >
-                ARTICLES
+                {t('articles')}
               </Link>
               <Link
                 href="/about"
                 className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
               >
-                ABOUT ME
+                {t('about')}
               </Link>
             </div>
           </div>
 
-          {/* Search & Theme Toggle */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          {/* Search & Theme Toggle & Language */}
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Desktop Search */}
             <form onSubmit={handleSearch} className="relative hidden md:block">
               <input
                 type="text"
-                placeholder="Search articles..."
+                placeholder={t('search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-48 lg:w-64 px-4 py-2 pl-10 bg-gray-100/60 dark:bg-gray-800/60 border border-gray-200/50 dark:border-gray-700/50 rounded-full text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-400/20 transition-all"
@@ -87,6 +90,7 @@ export default function Navbar() {
               </svg>
             </button>
 
+            <LanguageSwitcher />
             <ThemeToggle />
 
             {/* Mobile menu button */}
@@ -111,7 +115,7 @@ export default function Navbar() {
             <form onSubmit={handleSearch} className="relative">
               <input
                 type="text"
-                placeholder="Search articles..."
+                placeholder={t('search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 autoFocus
@@ -137,21 +141,21 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-colors"
             >
-              HOME
+              {t('home')}
             </Link>
             <Link
               href="/articles"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-colors"
             >
-              ARTICLES
+              {t('articles')}
             </Link>
             <Link
               href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-colors"
             >
-              ABOUT ME
+              {t('about')}
             </Link>
           </div>
         )}

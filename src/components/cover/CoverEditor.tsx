@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { CoverConfig, CoverTemplate, CoverLayout, DEFAULT_COVER_CONFIG } from '@/types/cover';
 import { TEMPLATES, PRESET_ICONS, LAYOUTS, PRESET_COLOR_SCHEMES, generateDefaultCoverConfig } from '@/utils/coverPresets';
 import CoverCanvas from './CoverCanvas';
@@ -25,6 +26,8 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
   const [preview, setPreview] = useState<string>('');
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'template' | 'color' | 'content'>('template');
+  const t = useTranslations('cover');
+  const tCommon = useTranslations('common');
 
   // 更新配置
   const updateConfig = useCallback((updates: Partial<CoverConfig>) => {
@@ -77,9 +80,9 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
         {/* Tab 导航 */}
         <div className="flex gap-2 mb-6 border-b border-gray-200 dark:border-gray-700">
           {[
-            { id: 'template', label: '模板' },
-            { id: 'color', label: '配色' },
-            { id: 'content', label: '内容' },
+            { id: 'template', label: t('template') },
+            { id: 'color', label: t('presetColors') },
+            { id: 'content', label: 'Content' },
           ].map(tab => (
             <button
               key={tab.id}
@@ -101,27 +104,27 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
             {/* 模板类型 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                选择模板
+                {t('template')}
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {TEMPLATES.map(t => (
+                {TEMPLATES.map(t_item => (
                   <button
-                    key={t.id}
-                    onClick={() => updateConfig({ template: t.id })}
+                    key={t_item.id}
+                    onClick={() => updateConfig({ template: t_item.id })}
                     className={`p-4 rounded-xl border-2 transition-all ${
-                      config.template === t.id
+                      config.template === t_item.id
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30'
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                     }`}
                   >
                     <div className="text-2xl mb-2">
-                      {t.id === 'gradient' && '🌈'}
-                      {t.id === 'pattern' && '🔷'}
-                      {t.id === 'minimal' && '⬜'}
-                      {t.id === 'card' && '🃏'}
+                      {t_item.id === 'gradient' && '🌈'}
+                      {t_item.id === 'pattern' && '🔷'}
+                      {t_item.id === 'minimal' && '⬜'}
+                      {t_item.id === 'card' && '🃏'}
                     </div>
-                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{t.name}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t.description}</div>
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{t(`templates.${t_item.id}` as any)}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t(`templates.${t_item.id}Desc` as any)}</div>
                   </button>
                 ))}
               </div>
@@ -130,7 +133,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
             {/* 布局选择 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                文字布局
+                {t('layout')}
               </label>
               <div className="flex gap-3">
                 {LAYOUTS.map(l => (
@@ -143,7 +146,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
                         : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                     }`}
                   >
-                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{l.name}</div>
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{t(`layouts.${l.id}` as any)}</div>
                   </button>
                 ))}
               </div>
@@ -157,7 +160,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
             {/* 预设配色 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                预设配色
+                {t('presetColors')}
               </label>
               <div className="grid grid-cols-5 gap-2">
                 {PRESET_COLOR_SCHEMES.map(({ name, scheme }) => (
@@ -189,7 +192,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  主色调
+                  {t('primaryColor')}
                 </label>
                 <div className="flex items-center gap-2">
                   <input
@@ -209,7 +212,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  副色调
+                  {t('secondaryColor')}
                 </label>
                 <div className="flex items-center gap-2">
                   <input
@@ -229,7 +232,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  文字颜色
+                  {t('textColor')}
                 </label>
                 <div className="flex items-center gap-2">
                   <input
@@ -256,7 +259,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
             {/* 自定义标题 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                封面标题
+                {t('coverTitle')}
               </label>
               <input
                 type="text"
@@ -265,28 +268,28 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
                 onChange={e => updateConfig({ title: e.target.value || undefined })}
                 className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400"
               />
-              <p className="mt-1 text-xs text-gray-500">留空则使用文章标题</p>
+              <p className="mt-1 text-xs text-gray-500">{t('coverTitlePlaceholder')}</p>
             </div>
 
             {/* 副标题 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                副标题
+                {t('subtitle')}
               </label>
               <input
                 type="text"
-                placeholder={firstTag ? `#${firstTag}` : '添加副标题...'}
+                placeholder={firstTag ? `#${firstTag}` : t('subtitlePlaceholder')}
                 value={config.subtitle || ''}
                 onChange={e => updateConfig({ subtitle: e.target.value || undefined })}
                 className="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder-gray-400"
               />
-              <p className="mt-1 text-xs text-gray-500">留空则使用第一个标签</p>
+              <p className="mt-1 text-xs text-gray-500">{t('subtitlePlaceholder')}</p>
             </div>
 
             {/* 图标选择 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                装饰图标
+                {t('icon')}
               </label>
               <div className="flex flex-wrap gap-2">
                 <button
@@ -297,7 +300,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                   }`}
                 >
-                  无
+                  {t('none')}
                 </button>
                 {PRESET_ICONS.map(icon => (
                   <button
@@ -323,7 +326,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
             onClick={handleReset}
             className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
           >
-            重置为默认
+            {t('resetDefault')}
           </button>
 
           <div className="flex gap-3">
@@ -332,7 +335,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
                 onClick={onCancel}
                 className="px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
-                取消
+                {tCommon('cancel')}
               </button>
             )}
             <button
@@ -340,7 +343,7 @@ export default function CoverEditor({ post, onSave, onCancel }: CoverEditorProps
               disabled={saving}
               className="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {saving ? '保存中...' : '保存封面'}
+              {saving ? t('saving') : t('saveCover')}
             </button>
           </div>
         </div>

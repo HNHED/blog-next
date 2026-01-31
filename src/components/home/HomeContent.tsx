@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Post } from "@/types/post";
 import Sidebar from "@/components/layout/Sidebar";
-import FeaturedPost from "@/components/posts/FeaturedPost";
 import PostCard from "@/components/posts/PostCard";
 
 interface HomeContentProps {
@@ -11,6 +11,8 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ posts }: HomeContentProps) {
+  const t = useTranslations('home');
+  const tCommon = useTranslations('common');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -43,11 +45,6 @@ export default function HomeContent({ posts }: HomeContentProps) {
       post.tags.some((tag) => tag.name.toLowerCase().replace(/\s+/g, "-") === selectedCategory)
     );
   }, [posts, selectedCategory]);
-
-  // 特色文章（取最新的一篇）
-  const featuredPost = posts[0];
-  // 其他文章
-  const otherPosts = filteredPosts.slice(selectedCategory ? 0 : 1);
 
   const handleCategorySelect = (slug: string | null) => {
     setSelectedCategory(slug);
@@ -84,33 +81,30 @@ export default function HomeContent({ posts }: HomeContentProps) {
                 onClick={() => setSelectedCategory(null)}
                 className="text-xs text-teal-600 dark:text-teal-400 hover:underline"
               >
-                Clear filter
+                ✕
               </button>
             )}
           </div>
-
-          {/* Featured Post */}
-          {featuredPost && !selectedCategory && <FeaturedPost post={featuredPost} />}
 
           {/* Posts List */}
           <section>
             <div className="flex items-center justify-between mb-4 sm:mb-6">
               <h2 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 {selectedCategory
-                  ? `${categories.find((c) => c.slug === selectedCategory)?.name || "Articles"}`
-                  : "Latest Articles"}
+                  ? `${categories.find((c) => c.slug === selectedCategory)?.name || ""}`
+                  : t('latestPosts')}
               </h2>
               {selectedCategory && (
                 <button
                   onClick={() => setSelectedCategory(null)}
                   className="text-xs text-teal-600 dark:text-teal-400 hover:underline hidden lg:block"
                 >
-                  Clear filter
+                  ✕
                 </button>
               )}
             </div>
 
-            {otherPosts.length === 0 ? (
+            {filteredPosts.length === 0 ? (
               <div className="text-center py-12 sm:py-20">
                 <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl mb-4">
                   <svg
@@ -127,16 +121,11 @@ export default function HomeContent({ posts }: HomeContentProps) {
                     />
                   </svg>
                 </div>
-                <p className="text-gray-400 dark:text-gray-500">No articles found</p>
-                {selectedCategory && (
-                  <p className="text-gray-300 dark:text-gray-600 text-sm mt-1">
-                    Try selecting a different category
-                  </p>
-                )}
+                <p className="text-gray-400 dark:text-gray-500">{tCommon('noData')}</p>
               </div>
             ) : (
               <div className="space-y-3 sm:space-y-4">
-                {otherPosts.map((post, index) => (
+                {filteredPosts.map((post, index) => (
                   <PostCard key={post.id} post={post} index={index} />
                 ))}
               </div>
