@@ -35,5 +35,12 @@ export const postService = {
   // 更新封面配置
   async updateCover(id: string, data: UpdateCoverDto) {
     return api.put(`/posts/${id}/cover`, data);
-  }
+  },
+
+  // 搜索文章
+  async searchPosts(keyword: string): Promise<Post[]> {
+    const res = await fetch(`${API_URL}/posts/search?q=${encodeURIComponent(keyword)}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('搜索失败');
+    return res.json();
+  },
 };
