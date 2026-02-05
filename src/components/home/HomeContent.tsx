@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Post } from "@/types/post";
 import Sidebar from "@/components/layout/Sidebar";
 import PostCard from "@/components/posts/PostCard";
@@ -65,26 +66,39 @@ export default function HomeContent({ posts }: HomeContentProps) {
       {/* Main Content - extends full width, sidebar overlays on top */}
       <main className="min-h-[calc(100vh-4rem)] p-4 sm:p-6 lg:pl-80 lg:pr-8 lg:py-8">
         <div className="max-w-4xl mx-auto lg:mx-0">
-          {/* Mobile Header with Menu Button */}
-          <div className="flex items-center justify-between mb-6 lg:hidden">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200/50 dark:border-gray-700/50 hover:bg-white dark:hover:bg-gray-800 transition-all"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-              Menu
-            </button>
-            {selectedCategory && (
+          {/* Hanging cloud trigger - mobile only */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="fixed z-40 lg:hidden group cursor-pointer top-14 sm:top-16 left-[30px] sm:left-[40px] -translate-x-1/2"
+          >
+            <div className={`flex flex-col items-center transition-all duration-500 ease-in-out ${sidebarOpen ? '' : 'animate-swing'}`}>
+              {/* Cord */}
+              <div className={`w-[1px] bg-gradient-to-b from-gray-200/60 dark:from-gray-600/40 to-gray-300/40 dark:to-gray-500/30 transition-all duration-500 ease-in-out ${sidebarOpen ? 'h-12' : 'h-6'}`} />
+              {/* Cloud icon */}
+              <div className="relative -mt-[1px] group-active:scale-90 transition-transform">
+                <Image
+                  src="/cloud.png"
+                  alt="Menu"
+                  width={36}
+                  height={36}
+                  unoptimized
+                  className="drop-shadow-md group-hover:drop-shadow-lg transition-all"
+                />
+              </div>
+            </div>
+          </button>
+
+          {/* Category clear - mobile */}
+          {selectedCategory && (
+            <div className="flex justify-end mb-4 lg:hidden">
               <button
                 onClick={() => setSelectedCategory(null)}
                 className="text-xs text-teal-600 dark:text-teal-400 hover:underline"
               >
                 ✕
               </button>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Posts List */}
           <section>

@@ -5,7 +5,7 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function MarkdownViewer({ content }: { content: string }) {
   return (
-    <article className="prose prose-blue max-w-none 
+    <article className="prose prose-teal dark:prose-invert max-w-none
       prose-code:before:content-none prose-code:after:content-none
       prose-pre:bg-transparent prose-pre:p-0">
       <ReactMarkdown
@@ -22,7 +22,7 @@ export default function MarkdownViewer({ content }: { content: string }) {
             return !inline && match ? (
               <div className="relative group">
                 {/* 悬浮显示的语言标识 */}
-                <div className="absolute right-4 top-2 text-xs font-mono text-shadow-amber-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute right-4 top-2 text-xs font-mono text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
                   {match[1].toUpperCase()}
                 </div>
                 <SyntaxHighlighter
@@ -41,7 +41,7 @@ export default function MarkdownViewer({ content }: { content: string }) {
 
               </div>
             ) : (
-              <code className="bg-slate-100 text-blue-600 px-1.5 py-0.5 rounded-md font-medium" {...props}>
+              <code className="bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300 px-1.5 py-0.5 rounded-md font-medium" {...props}>
                 {children}
               </code>
             );

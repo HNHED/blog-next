@@ -51,7 +51,7 @@ export default function CoverEditorWrapper({ post }: CoverEditorWrapperProps) {
   return (
     <button
       onClick={() => setIsEditing(true)}
-      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+      className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors cursor-pointer"
       title="编辑封面"
     >
       <ImageIcon size={16} />

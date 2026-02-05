@@ -17,6 +17,9 @@ export default function AdminFloatingButton() {
   const isPostDetail = pathname.startsWith("/posts/");
   const postId = isPostDetail ? pathname.split("/").pop() : null;
 
+  // 仅在首页和文章详情页显示
+  if (!isHomePage && !isPostDetail) return null;
+
   const handleDelete = async () => {
     if (!postId) return;
     if (confirm("确定要删除这篇文章吗？")) {
