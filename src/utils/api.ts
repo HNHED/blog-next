@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
 
-const BASE_URL = 'http://localhost:3333';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3333';
 
 async function request(endpoint: string, options: RequestInit = {}) {
   const session = await getSession();
