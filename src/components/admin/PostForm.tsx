@@ -3,7 +3,7 @@
 
 import { useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Save, Eye, Edit3, ArrowLeft, Loader2, Hash, ChevronLeft, Edit2, Layout } from 'lucide-react'
+import { Save, Eye, Edit3, ArrowLeft, Loader2, Hash, ChevronLeft, Edit2, Layout, ImageIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
@@ -32,6 +32,7 @@ export default function PostForm({ initialData, onSubmit, isSubmitting }: PostFo
   const [tags, setTags] = useState<string[]>(initialData?.tags || [])
   const [viewMode, setViewMode] = useState<'split' | 'edit' | 'preview'>('split');
   const [tagInput, setTagInput] = useState('')
+  const [isUploading, setIsUploading] = useState(false)
 
   const editRef = useRef<HTMLTextAreaElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -93,6 +94,51 @@ export default function PostForm({ initialData, onSubmit, isSubmitting }: PostFo
 
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter(t => t !== tagToRemove))
+  }
+
+  // 处理粘贴图片
+  const handlePaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    // 查找粘贴内容中的图片
+    const imageItem = Array.from(items).find(item => item.type.startsWith('image/'));
+    if (!imageItem) return;
+
+    // 阻止默认粘贴行为
+    e.preventDefault();
+
+    const file = imageItem.getAsFile();
+    if (!file) return;
+
+    const textarea = editRef.current;
+    if (!textarea) return;
+
+    // 记录光标位置
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    // 插入上传占位符
+    const placeholder = '![上传中...](uploading)';
+    const newContent = content.slice(0, start) + placeholder + content.slice(end);
+    setContent(newContent);
+
+    setIsUploading(true);
+
+    try {
+      const result = await api.uploadImage(file);
+
+      // 替换占位符为实际图片链接
+      const imageMarkdown = `![image](${result.url})`;
+      setContent(prev => prev.replace(placeholder, imageMarkdown));
+    } catch (error) {
+      console.error('上传图片失败:', error);
+      // 移除占位符
+      setContent(prev => prev.replace(placeholder, ''));
+      alert('上传图片失败，请重试');
+    } finally {
+      setIsUploading(false);
+    }
   }
 
 
@@ -190,9 +236,18 @@ export default function PostForm({ initialData, onSubmit, isSubmitting }: PostFo
               {/* 左侧装饰线 */}
               <div className="absolute left-0 top-6 bottom-6 w-[3px] rounded-full bg-gradient-to-b from-teal-400/60 via-cyan-400/40 to-teal-400/0" />
 
+              {/* 上传中指示器 */}
+              {isUploading && (
+                <div className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-teal-500/90 text-white px-3 py-1.5 rounded-lg text-sm shadow-lg">
+                  <Loader2 size={14} className="animate-spin" />
+                  上传图片中...
+                </div>
+              )}
+
               <textarea
                 ref={editRef}
                 onScroll={() => handleScroll('edit')}
+                onPaste={handlePaste}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="在这里开始你的创作..."

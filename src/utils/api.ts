@@ -35,6 +35,28 @@ async function request(endpoint: string, options: RequestInit = {}) {
   }
 }
 
+// 上传图片（使用 FormData，不设置 Content-Type）
+async function uploadImage(file: File): Promise<{ url: string; publicId: string }> {
+  const session = await getSession();
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch(`${BASE_URL}/upload/image`, {
+    method: 'POST',
+    headers: {
+      'x-admin-email': session?.user?.email || '',
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `上传失败: ${response.status}`);
+  }
+
+  return response.json();
+}
+
 // 3. 导出快捷方法
 export const api = {
   get: (url: string, options?: RequestInit) => request(url, { ...options, method: 'GET' }),
@@ -43,4 +65,5 @@ export const api = {
   put: (url: string, body: any, options?: RequestInit) =>
     request(url, { ...options, method: 'PUT', body: JSON.stringify(body) }),
   delete: (url: string, options?: RequestInit) => request(url, { ...options, method: 'DELETE' }),
+  uploadImage,
 };
