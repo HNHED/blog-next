@@ -41,7 +41,7 @@ export default function Navbar() {
               >
                 {t('home')}
               </Link>
-              <Link
+              {/* <Link
                 href="/articles"
                 className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
               >
@@ -52,7 +52,7 @@ export default function Navbar() {
                 className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
               >
                 {t('about')}
-              </Link>
+              </Link> */}
             </div>
           </div>
 
@@ -167,7 +167,7 @@ export default function Navbar() {
             >
               {t('home')}
             </Link>
-            <Link
+            {/* <Link
               href="/articles"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-colors"
@@ -180,7 +180,7 @@ export default function Navbar() {
               className="block px-4 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60 rounded-xl transition-colors"
             >
               {t('about')}
-            </Link>
+            </Link> */}
           </div>
         )}
       </div>
