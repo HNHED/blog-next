@@ -1,18 +1,16 @@
 import { Post, CreatePostDto, type UpdatePostDto, type UpdateCoverDto } from "@/types/post";
-import { api } from "@/utils/api";
-
-const API_URL = 'http://localhost:3333';
+import { api, BASE_URL } from "@/utils/api";
 
 export const postService = {
   async getAllPosts(): Promise<Post[]> {
-    const res = await fetch(`${API_URL}/posts`, { cache: 'no-store' });
+    const res = await fetch(`${BASE_URL}/posts`, { cache: 'no-store' });
     if (!res.ok) throw new Error('获取文章失败');
     return res.json();
   },
 
   // 用于详情页 Server Component
   async getPostById(id: string): Promise<Post> {
-    const res = await fetch(`${API_URL}/posts/${id}`, { cache: 'no-store' });
+    const res = await fetch(`${BASE_URL}/posts/${id}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('文章不存在');
     return res.json();
   },
@@ -39,7 +37,7 @@ export const postService = {
 
   // 搜索文章
   async searchPosts(keyword: string): Promise<Post[]> {
-    const res = await fetch(`${API_URL}/posts/search?q=${encodeURIComponent(keyword)}`, { cache: 'no-store' });
+    const res = await fetch(`${BASE_URL}/posts/search?q=${encodeURIComponent(keyword)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('搜索失败');
     return res.json();
   },
