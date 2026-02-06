@@ -37,6 +37,7 @@ export const postService = {
 
   // 搜索文章
   async searchPosts(keyword: string): Promise<Post[]> {
+    console.log('current baseurl', BASE_URL)
     const res = await fetch(`${BASE_URL}/posts/search?q=${encodeURIComponent(keyword)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('搜索失败');
     return res.json();
