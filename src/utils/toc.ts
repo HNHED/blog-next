@@ -1,7 +1,7 @@
 import type { TocItem } from '@/types/post';
 
 const extractToc = (markdown: string): TocItem[] => {
-  const titles = markdown.match(/^#{1,3} .+/gm) || [];
+  const titles = markdown.match(/^#{1,5} .+/gm) || [];
   return titles.map((title) => {
     const level = title.match(/^#+/)?.[0].length || 0;
     const text = title.replace(/^#+ /, "").trim();
