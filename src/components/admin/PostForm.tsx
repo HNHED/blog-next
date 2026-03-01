@@ -2,16 +2,10 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import ReactMarkdown from 'react-markdown'
-import { Save, Eye, Edit3, ArrowLeft, Loader2, Hash, ChevronLeft, Edit2, Layout, ImageIcon } from 'lucide-react'
-import Link from 'next/link'
+import { Save, Eye, Loader2, Hash, ChevronLeft, Edit2, Layout } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { api } from '@/utils/api'
-import remarkGfm from 'remark-gfm'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-// 选择一个你喜欢的主题，比如 oneDark 或 atomDark
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { extractToc } from '@/utils/toc'
 import RemoteMarkdown from '../posts/RemoteMarkdown'
 
@@ -230,7 +224,7 @@ export default function PostForm({ initialData, onSubmit, isSubmitting }: PostFo
         {(viewMode === 'edit' || viewMode === 'split') && (
           <div className="flex-1 flex flex-col min-w-0 relative">
             <div className="absolute inset-4 rounded-2xl overflow-hidden bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg shadow-gray-300/20 dark:shadow-gray-900/40">
-              {/* 微妙的色彩渐变层 */}
+              {/* 色彩渐变层 */}
               <div className="absolute inset-0 bg-gradient-to-br from-teal-50/30 dark:from-teal-900/20 via-transparent to-cyan-50/20 dark:to-cyan-900/10 pointer-events-none" />
 
               {/* 左侧装饰线 */}
