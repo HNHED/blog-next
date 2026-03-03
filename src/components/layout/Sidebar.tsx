@@ -6,8 +6,9 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 // 博主信息配置
-const BLOG_OWNER = {
+export const BLOG_OWNER = {
   name: process.env.NEXT_PUBLIC_AUTHOR_NAME,
+  avatar: process.env.NEXT_PUBLIC_AUTHOR_AVATAR || 'https://avatars.githubusercontent.com/u/54623485?v=4',
   bio: process.env.NEXT_PUBLIC_AUTHOR_BIO,
   signature: process.env.NEXT_PUBLIC_AUTHOR_SIGNATURE,
   github: process.env.NEXT_PUBLIC_AUTHOR_GITHUB,
@@ -80,20 +81,14 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
         {/* Profile Section - 显示博主信息 */}
         <div className="text-center mb-6 mt-6 lg:mt-0 relative z-10">
           <div className="relative w-24 h-24 mx-auto mb-4">
-            {session?.user?.image ? (
+            (
               <Image
-                src={session.user.image}
-                alt={session.user.name || "Admin"}
+                src={BLOG_OWNER.avatar}
+                alt={session?.user?.name || "Admin"}
                 fill
                 className="rounded-full object-cover border-2 border-gray-200/60 dark:border-gray-700/60 shadow-md"
               />
-            ) : (
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center border-2 border-gray-200/60 dark:border-gray-700/60 shadow-md">
-                <span className="text-3xl font-bold text-white">
-                  {BLOG_OWNER.name?.charAt(0)}
-                </span>
-              </div>
-            )}
+            )
             {isAdmin && (
               <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-400 rounded-full border-2 border-white dark:border-gray-800 shadow-sm" title="管理员在线" />
             )}

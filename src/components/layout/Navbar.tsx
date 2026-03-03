@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import ThemeToggle from "./ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher";
+import Image from "next/image";
+import { BLOG_OWNER } from './Sidebar';
 
 export default function Navbar() {
   const t = useTranslations('nav');
@@ -29,8 +31,15 @@ export default function Navbar() {
           {/* Logo & Navigation */}
           <div className="flex items-center gap-4 sm:gap-8">
             <Link href="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center shadow-md">
-                <span className="text-white font-bold text-xs sm:text-sm">H</span>
+              <div className="relative w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br flex items-center justify-center shadow-md overflow-hidden">
+                <Image
+                  src={BLOG_OWNER.avatar}
+                  alt="Admin"
+                  fill
+                  className="rounded-full object-cover border-2 border-gray-200/60 dark:border-gray-700/60 shadow-md"
+                  priority
+                  sizes="(max-width: 640px) 28px, 40px"
+                />
               </div>
             </Link>
 
