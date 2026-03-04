@@ -147,3 +147,13 @@ article {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar{
+    display: none;
+  }
+  .no-scrollbar{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

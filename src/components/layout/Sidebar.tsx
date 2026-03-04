@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useEffect } from 'react';
 
 // 博主信息配置
 export const BLOG_OWNER = {
@@ -38,6 +39,15 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
   const tSidebar = useTranslations('sidebar');
   const tCommon = useTranslations('common');
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; }
+  }, [isOpen])
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -59,7 +69,7 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
           backdrop-blur-2xl
           border-r border-gray-200/60 dark:border-gray-700/50
           shadow-xl shadow-gray-300/20 dark:shadow-gray-900/40
-          p-6 flex flex-col overflow-y-auto
+          p-6 flex flex-col overflow-y-auto no-scrollbar
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
@@ -82,12 +92,12 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
         <div className="text-center mb-6 mt-6 lg:mt-0 relative z-10">
           <div className="relative w-24 h-24 mx-auto mb-4">
             (
-              <Image
-                src={BLOG_OWNER.avatar}
-                alt={session?.user?.name || "Admin"}
-                fill
-                className="rounded-full object-cover border-2 border-gray-200/60 dark:border-gray-700/60 shadow-md"
-              />
+            <Image
+              src={BLOG_OWNER.avatar}
+              alt={session?.user?.name || "Admin"}
+              fill
+              className="rounded-full object-cover border-2 border-gray-200/60 dark:border-gray-700/60 shadow-md"
+            />
             )
             {isAdmin && (
               <div className="absolute bottom-0 right-0 w-6 h-6 bg-green-400 rounded-full border-2 border-white dark:border-gray-800 shadow-sm" title="管理员在线" />
@@ -168,8 +178,8 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
               <button
                 onClick={() => onCategorySelect?.(null)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all ${!selectedCategory
-                    ? "bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 font-medium border border-teal-200/60 dark:border-teal-800/40"
-                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60"
+                  ? "bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 font-medium border border-teal-200/60 dark:border-teal-800/40"
+                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60"
                   }`}
               >
                 <span className="flex items-center gap-2">
@@ -186,8 +196,8 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
                 <button
                   onClick={() => onCategorySelect?.(category.slug)}
                   className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm transition-all ${selectedCategory === category.slug
-                      ? "bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 font-medium border border-teal-200/60 dark:border-teal-800/40"
-                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60"
+                    ? "bg-teal-50 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 font-medium border border-teal-200/60 dark:border-teal-800/40"
+                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-100/60 dark:hover:bg-gray-800/60"
                     }`}
                 >
                   <span className="flex items-center gap-2">
