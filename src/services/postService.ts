@@ -1,9 +1,20 @@
-import { Post, CreatePostDto, type UpdatePostDto, type UpdateCoverDto } from "@/types/post";
+import { Post, CreatePostDto, type UpdatePostDto, type UpdateCoverDto, type PaginatedResponse } from "@/types/post";
 import { api, BASE_URL } from "@/utils/api";
 
 export const postService = {
   async getAllPosts(): Promise<Post[]> {
     const res = await fetch(`${BASE_URL}/posts`, { cache: 'no-store' });
+    if (!res.ok) throw new Error('获取文章失败');
+    return res.json();
+  },
+
+  async getPosts(params?: { page?: number; limit?: number; tag?: string }): Promise<PaginatedResponse<Post>> {
+    const query = new URLSearchParams();
+    if (params?.page) query.set('page', String(params.page));
+    if (params?.limit) query.set('limit', String(params.limit));
+    if (params?.tag) query.set('tag', params.tag);
+    const qs = query.toString();
+    const res = await fetch(`${BASE_URL}/posts/paginated${qs ? `?${qs}` : ''}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('获取文章失败');
     return res.json();
   },

@@ -29,9 +29,10 @@ interface SidebarProps {
   onCategorySelect?: (slug: string | null) => void;
   isOpen?: boolean;
   onClose?: () => void;
+  totalCount?: number;
 }
 
-export default function Sidebar({ categories, selectedCategory, onCategorySelect, isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ categories, selectedCategory, onCategorySelect, isOpen, onClose, totalCount }: SidebarProps) {
   const { data: session } = useSession();
   const isAdmin = !!session;
   const t = useTranslations();
@@ -96,6 +97,7 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
               src={BLOG_OWNER.avatar}
               alt={session?.user?.name || "Admin"}
               fill
+              priority
               className="rounded-full object-cover border-2 border-gray-200/60 dark:border-gray-700/60 shadow-md"
             />
             )
@@ -187,7 +189,7 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
                   {tSidebar('allPosts')}
                 </span>
                 <span className="text-xs bg-gray-200/80 dark:bg-gray-700/80 px-2 py-0.5 rounded-full">
-                  {categories.reduce((sum, cat) => sum + cat.count, 0)}
+                  {totalCount ?? categories.reduce((sum, cat) => sum + cat.count, 0)}
                 </span>
               </button>
             </li>
