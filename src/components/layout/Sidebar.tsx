@@ -76,8 +76,8 @@ export default function Sidebar({ categories, selectedCategory, onCategorySelect
         `}
       >
         {/* Frosted glass gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-50/40 via-white/20 to-cyan-50/40 dark:from-teal-950/20 dark:via-transparent dark:to-cyan-950/20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/30 dark:from-gray-800/20 dark:via-transparent dark:to-gray-800/20 pointer-events-none" />
+        <div className="absolute  bg-gradient-to-br from-teal-50/40 via-white/20 to-cyan-50/40 dark:from-teal-950/20 dark:via-transparent dark:to-cyan-950/20 pointer-events-none" />
+        <div className="absolute  bg-gradient-to-b from-white/40 via-transparent to-white/30 dark:from-gray-800/20 dark:via-transparent dark:to-gray-800/20 pointer-events-none" />
 
         {/* Mobile Close Button */}
         <button
