@@ -3,17 +3,24 @@ import { getSession } from "next-auth/react";
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3333';
 
 async function request(endpoint: string, options: RequestInit = {}) {
-  const session = await getSession();
+  let adminEmail = '';
+  if (typeof window === 'undefined') {
+    // 只有在服务端渲染时才调用 auth()
+    const { auth } = await import("@/auth");
+    const session = await auth();
+    adminEmail = session?.user?.email || '';
+  }
   const headers = {
     'Content-Type': 'application/json',
     // 自动注入管理员邮箱
-    'x-admin-email': session?.user?.email || '',
+    'x-admin-email': adminEmail,
     ...options.headers,
   };
 
   const config = {
     ...options,
     headers,
+    next: { revalidate: 3600 },
   };
 
   try {

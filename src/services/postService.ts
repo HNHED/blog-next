@@ -3,9 +3,7 @@ import { api, BASE_URL } from "@/utils/api";
 
 export const postService = {
   async getAllPosts(): Promise<Post[]> {
-    const res = await fetch(`${BASE_URL}/posts`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('获取文章失败');
-    return res.json();
+    return await api.get(`/posts`);
   },
 
   async getPosts(params?: { page?: number; limit?: number; tag?: string }): Promise<PaginatedResponse<Post>> {
@@ -14,16 +12,13 @@ export const postService = {
     if (params?.limit) query.set('limit', String(params.limit));
     if (params?.tag) query.set('tag', params.tag);
     const qs = query.toString();
-    const res = await fetch(`${BASE_URL}/posts/paginated${qs ? `?${qs}` : ''}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('获取文章失败');
-    return res.json();
+    const res = await api.get(`/posts/paginated${qs ? `?${qs}` : ''}`);
+    return res;
   },
 
   // 用于详情页 Server Component
   async getPostById(id: string): Promise<Post> {
-    const res = await fetch(`${BASE_URL}/posts/${id}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error('文章不存在');
-    return res.json();
+    return api.get(`/posts/${id}`);
   },
 
   // 用于发布页 Client Component (使用封装好的 api 客户端)
@@ -48,7 +43,6 @@ export const postService = {
 
   // 搜索文章
   async searchPosts(keyword: string): Promise<Post[]> {
-    console.log('current baseurl', BASE_URL)
     const res = await fetch(`${BASE_URL}/posts/search?q=${encodeURIComponent(keyword)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error('搜索失败');
     return res.json();
