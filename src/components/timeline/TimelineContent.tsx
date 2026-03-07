@@ -5,7 +5,14 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { ArrowLeft, Calendar, FileText } from 'lucide-react';
 import { Post } from '@/types/post';
-import CoverPreview from '@/components/cover/CoverPreview';
+import dynamic from 'next/dynamic';
+
+const CoverPreview = dynamic(() => import('@/components/cover/CoverPreview'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full animate-pulse bg-gray-50 rounded-lg" />
+  )
+});
 
 interface TimelineContentProps {
   posts: Post[];
@@ -178,6 +185,7 @@ export default function TimelineContent({ posts }: TimelineContentProps) {
                             {/* Mini cover */}
                             <div className="hidden sm:block w-20 h-14 rounded-lg overflow-hidden flex-shrink-0">
                               <CoverPreview
+                                index={index}
                                 title={post.title}
                                 tag={post.tags[0]?.name}
                                 coverConfig={post.coverConfig}

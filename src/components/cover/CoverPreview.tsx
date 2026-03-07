@@ -4,9 +4,11 @@ import { useState, useEffect, useMemo } from 'react';
 import { CoverConfig, DEFAULT_COVER_CONFIG } from '@/types/cover';
 import { generateDefaultCoverConfig } from '@/utils/coverPresets';
 import CoverCanvas from './CoverCanvas';
+import Image from 'next/image';
 
 interface CoverPreviewProps {
   title: string;
+  index: number;
   tag?: string;
   coverConfig?: CoverConfig | null;
   className?: string;
@@ -17,6 +19,7 @@ interface CoverPreviewProps {
 
 export default function CoverPreview({
   title,
+  index,
   tag,
   coverConfig,
   className = '',
@@ -55,10 +58,21 @@ export default function CoverPreview({
 
       {/* 显示生成的图片 */}
       {imageUrl ? (
-        <img
+        // <img
+        //   src={imageUrl}
+        //   alt={`封面: ${title}`}
+        //   className="w-full h-full object-cover"
+        // />
+        <Image
           src={imageUrl}
           alt={`封面: ${title}`}
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          // 只有前 5 张图设置 priority，其余全部自动懒加载
+          priority={index < 5} 
+          // 增加模糊占位图，提升视觉感知
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/+ZNPQAIXwMwFcyRowAAAABJRU5ErkJggg=="
         />
       ) : (
         // 加载中的占位

@@ -16,6 +16,7 @@ export default function PostCard({ post, index = 0 }: { post: Post; index?: numb
         <div className="relative w-full sm:w-28 md:w-32 h-32 sm:h-20 md:h-24 flex-shrink-0 rounded-lg overflow-hidden">
           <CoverPreview
             title={post.title}
+            index={index}
             tag={firstTag}
             coverConfig={post.coverConfig}
             className="w-full h-full"

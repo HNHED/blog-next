@@ -43,7 +43,7 @@ export const postService = {
 
   // 搜索文章
   async searchPosts(keyword: string): Promise<Post[]> {
-    const res = await fetch(`${BASE_URL}/posts/search?q=${encodeURIComponent(keyword)}`, { cache: 'no-store' });
+    const res = await fetch(`${BASE_URL}/posts/search?q=${encodeURIComponent(keyword)}`);
     if (!res.ok) throw new Error('搜索失败');
     return res.json();
   },
