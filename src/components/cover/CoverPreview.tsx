@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { CoverConfig, DEFAULT_COVER_CONFIG } from '@/types/cover';
 import { generateDefaultCoverConfig } from '@/utils/coverPresets';
 import CoverCanvas from './CoverCanvas';
@@ -38,10 +38,9 @@ export default function CoverPreview({
     return generateDefaultCoverConfig(title, tag ? [tag] : []);
   }, [coverConfig, title, tag]);
 
-  // 生成封面后的回调
-  const handleGenerated = (dataUrl: string) => {
+  const handleGenerated = useCallback((dataUrl: string) => {
     setImageUrl(dataUrl);
-  };
+  }, []);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
