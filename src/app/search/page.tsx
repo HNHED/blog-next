@@ -1,7 +1,7 @@
 import { postService } from "@/services/postService";
-import { ArrowLeft, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import BackToHomeLink from '@/components/common/BackToHomeLink';
 
 function HighlightText({ text, keyword }: { text: string; keyword: string }) {
   if (!keyword.trim()) return <>{text}</>;
@@ -42,7 +42,6 @@ function getContentSnippet(content: string, keyword: string, maxLen = 200): stri
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const { q: keyword = "" } = await searchParams;
-  const t = await getTranslations('common');
 
   let posts: Awaited<ReturnType<typeof postService.searchPosts>> = [];
   if (keyword.trim()) {
@@ -52,10 +51,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   return (
     <div className="min-h-screen flex flex-col">
       <nav className="max-w-5xl mx-auto w-full px-6 py-8">
-        <Link href="/" className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
-          <ArrowLeft size={18} />
-          <span>{t('backToHome')}</span>
-        </Link>
+        <BackToHomeLink />
       </nav>
 
       <div className="flex-1 max-w-5xl mx-auto w-full px-6 pb-20">

@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from 'next-auth/react';
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { LocaleProvider } from '@/components/providers/LocaleProvider';
 import Navbar from '@/components/layout/Navbar';
 import AdminFloatingButton from '@/components/admin/AdminFloatingButton';
 import { Analytics } from '@vercel/analytics/react';
@@ -23,26 +22,23 @@ export const metadata: Metadata = {
   description: "Full-stack developer & tech enthusiast. Code, Think and Repeat.",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-  const messages = await getMessages();
-
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang="zh" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextIntlClientProvider messages={messages}>
+        <LocaleProvider>
           <SessionProvider>
             <Navbar />
             {children}
             <AdminFloatingButton />
           </SessionProvider>
-        </NextIntlClientProvider>
+        </LocaleProvider>
         <Analytics />
       </body>
     </html>

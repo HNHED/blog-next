@@ -1,19 +1,14 @@
 'use client';
 
-import { useTransition } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocaleContext } from '@/components/providers/LocaleProvider';
 import { type Locale } from '@/i18n/config';
 
 export default function LanguageSwitcher() {
-  const locale = useLocale();
-  const [isPending, startTransition] = useTransition();
+  const { locale, setLocale, isPending } = useLocaleContext();
 
   const toggleLocale = () => {
     const newLocale: Locale = locale === 'zh' ? 'en' : 'zh';
-    startTransition(() => {
-      document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-      window.location.reload();
-    });
+    setLocale(newLocale);
   };
 
   const isZh = locale === 'zh';

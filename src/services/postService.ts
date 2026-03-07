@@ -26,8 +26,8 @@ export const postService = {
     return api.post('/posts', data);
   },
 
-    // 用于发布页 Client Component (使用封装好的 api 客户端)
-  async updatePost({id, data}: UpdatePostDto) {
+  // 用于发布页 Client Component (使用封装好的 api 客户端)
+  async updatePost({ id, data }: UpdatePostDto) {
     return api.put(`/posts/${id}`, data);
   },
 

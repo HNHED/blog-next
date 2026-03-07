@@ -1,11 +1,11 @@
-import { getSession } from "next-auth/react";
-
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3333';
 
-async function request(endpoint: string, options: RequestInit = {}) {
+type RequestParam = RequestInit & { __needAuth?: boolean };
+
+async function request(endpoint: string, options: RequestParam = {}) {
   let adminEmail = '';
-  if (typeof window === 'undefined') {
-    // 只有在服务端渲染时才调用 auth()
+  const { __needAuth = false, headers: _headers = {}, ...data } = options
+  if (typeof window === 'undefined' && __needAuth) {
     const { auth } = await import("@/auth");
     const session = await auth();
     adminEmail = session?.user?.email || '';
@@ -14,11 +14,11 @@ async function request(endpoint: string, options: RequestInit = {}) {
     'Content-Type': 'application/json',
     // 自动注入管理员邮箱
     'x-admin-email': adminEmail,
-    ...options.headers,
+    ..._headers,
   };
 
   const config = {
-    ...options,
+    ...data,
     headers,
     next: { revalidate: 3600 },
   };
@@ -44,6 +44,7 @@ async function request(endpoint: string, options: RequestInit = {}) {
 
 // 上传图片（使用 FormData，不设置 Content-Type）
 async function uploadImage(file: File): Promise<{ url: string; publicId: string }> {
+  const { getSession } = await import("next-auth/react");
   const session = await getSession();
   const formData = new FormData();
   formData.append('file', file);
@@ -66,11 +67,11 @@ async function uploadImage(file: File): Promise<{ url: string; publicId: string 
 
 // 3. 导出快捷方法
 export const api = {
-  get: (url: string, options?: RequestInit) => request(url, { ...options, method: 'GET' }),
-  post: (url: string, body: any, options?: RequestInit) =>
-    request(url, { ...options, method: 'POST', body: JSON.stringify(body) }),
-  put: (url: string, body: any, options?: RequestInit) =>
-    request(url, { ...options, method: 'PUT', body: JSON.stringify(body) }),
-  delete: (url: string, options?: RequestInit) => request(url, { ...options, method: 'DELETE' }),
+  get: (url: string, options?: RequestParam) => request(url, { ...options, method: 'GET' }),
+  post: (url: string, body: any, options?: RequestParam) =>
+    request(url, { ...options, method: 'POST', body: JSON.stringify(body), __needAuth: true }),
+  put: (url: string, body: any, options?: RequestParam) =>
+    request(url, { ...options, method: 'PUT', body: JSON.stringify(body), __needAuth: true }),
+  delete: (url: string, options?: RequestParam) => request(url, { ...options, method: 'DELETE', __needAuth: true }),
   uploadImage,
 };
