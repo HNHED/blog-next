@@ -29,6 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh" suppressHydrationWarning>
+      <link rel="preconnect" href="https://hnhed-blog.top" />
+      <link rel="dns-prefetch" href="https://hnhed-blog.top" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
