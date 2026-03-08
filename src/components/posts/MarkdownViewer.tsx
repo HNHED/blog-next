@@ -1,9 +1,36 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
+import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
+import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript';
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';
+import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
+import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
+import rust from 'react-syntax-highlighter/dist/esm/languages/prism/rust';
+import go from 'react-syntax-highlighter/dist/esm/languages/prism/go';
+import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
+import css from 'react-syntax-highlighter/dist/esm/languages/prism/css';
+import markdown from 'react-syntax-highlighter/dist/esm/languages/prism/markdown';
 import { slugify } from '@/utils/toc';
 import React from 'react';
+
+SyntaxHighlighter.registerLanguage('tsx', tsx);
+SyntaxHighlighter.registerLanguage('typescript', typescript);
+SyntaxHighlighter.registerLanguage('ts', typescript);
+SyntaxHighlighter.registerLanguage('javascript', javascript);
+SyntaxHighlighter.registerLanguage('js', javascript);
+SyntaxHighlighter.registerLanguage('jsx', jsx);
+SyntaxHighlighter.registerLanguage('bash', bash);
+SyntaxHighlighter.registerLanguage('shell', bash);
+SyntaxHighlighter.registerLanguage('python', python);
+SyntaxHighlighter.registerLanguage('py', python);
+SyntaxHighlighter.registerLanguage('rust', rust);
+SyntaxHighlighter.registerLanguage('go', go);
+SyntaxHighlighter.registerLanguage('json', json);
+SyntaxHighlighter.registerLanguage('css', css);
+SyntaxHighlighter.registerLanguage('markdown', markdown);
 
 interface ReactElementWithChildren extends React.ReactElement {
   props: {
