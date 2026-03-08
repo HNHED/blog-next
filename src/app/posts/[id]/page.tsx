@@ -21,19 +21,19 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="min-h-screen flex flex-col">
-      <nav className="max-w-7xl mx-auto w-full px-6 py-8">
+      <nav className="max-w-7xl mx-auto w-full px-4 py-6">
         <BackToHomeLink />
       </nav>
 
-      <div className="flex-1 max-w-7xl mx-auto w-full px-6 flex gap-12 pb-20">
+      <div className="flex-1 max-w-7xl mx-auto w-full px-4 flex gap-12 pb-20">
         {/* 左侧：文章主体 */}
         <main className="flex-1 min-w-0">
           <div className="rounded-2xl overflow-hidden bg-white/60 dark:bg-gray-800/60 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg shadow-gray-300/20 dark:shadow-gray-900/40">
             {/* 顶部装饰线 */}
             <div className="h-[3px] bg-gradient-to-r from-transparent via-teal-400/50 to-transparent" />
 
-            <div className="p-8 lg:p-12">
-              <header className="mb-12">
+            <div className="p-4 lg:p-8">
+              <header className="mb-8">
                 <div className="flex items-center justify-between gap-4 mb-4">
                   <div className="flex items-center gap-4 text-sm text-gray-400 dark:text-gray-500">
                     <div className="flex items-center gap-1">
