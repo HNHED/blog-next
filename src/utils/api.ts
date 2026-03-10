@@ -2,26 +2,54 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:33
 
 type RequestParam = RequestInit & { __needAuth?: boolean };
 
+/**
+ * 生成管理员 HMAC-SHA256 签名请求头
+ * - 服务端：直接用 ADMIN_SECRET 签名（密钥保留在服务器）
+ * - 客户端浏览器：调用 /api/admin-token 由服务端代理签名（密钥不下发浏览器）
+ */
+async function generateAdminHeaders(email?: string): Promise<Record<string, string>> {
+  if (typeof window === 'undefined') {
+    // 服务端环境 (Server Component / Route Handler)
+    if (!email) return {};
+    const crypto = await import('crypto');
+    const timestamp = Date.now().toString();
+    const secret = process.env.ADMIN_SECRET!;
+    const signature = crypto
+      .createHmac('sha256', secret)
+      .update(`${email}:${timestamp}`)
+      .digest('hex');
+    return {
+      'x-admin-email': email,
+      'x-admin-timestamp': timestamp,
+      'x-admin-signature': signature,
+    };
+  } else {
+    // 客户端浏览器环境：由 Next.js API 路由完成 session 读取 + 签名，密钥不暴露
+    const response = await fetch('/api/admin-token');
+    if (!response.ok) throw new Error('获取管理员令牌失败');
+    return response.json();
+  }
+}
+
 async function request(endpoint: string, options: RequestParam = {}) {
-  let adminEmail = '';
-  const { __needAuth = false, headers: _headers = {}, ...data } = options
+  let adminHeaders: Record<string, string> = {};
+  const { __needAuth = false, headers: _headers = {}, ...data } = options;
+
   if (__needAuth) {
     if (typeof window === 'undefined') {
-      // 服务端环境 (Server Component / Route Handler)
+      // 服务端：从 session 获取邮箱后直接签名
       const { auth } = await import("@/auth");
       const session = await auth();
-      adminEmail = session?.user?.email || '';
+      adminHeaders = await generateAdminHeaders(session?.user?.email || '');
     } else {
-      // 客户端环境 (Client Component)
-      const { getSession } = await import("next-auth/react");
-      const session = await getSession();
-      adminEmail = session?.user?.email || '';
+      // 客户端：通过 API 路由代理签名
+      adminHeaders = await generateAdminHeaders();
     }
   }
+
   const headers = {
     'Content-Type': 'application/json',
-    // 自动注入管理员邮箱
-    'x-admin-email': adminEmail,
+    ...adminHeaders,
     ..._headers,
   };
 
@@ -34,13 +62,11 @@ async function request(endpoint: string, options: RequestParam = {}) {
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, config);
 
-    // 2. 统一处理 HTTP 错误状态
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.message || `请求失败: ${response.status}`);
     }
 
-    // 如果是 204 No Content，直接返回空
     if (response.status === 204) return null;
 
     return await response.json();
@@ -52,16 +78,15 @@ async function request(endpoint: string, options: RequestParam = {}) {
 
 // 上传图片（使用 FormData，不设置 Content-Type）
 async function uploadImage(file: File): Promise<{ url: string; publicId: string }> {
-  const { getSession } = await import("next-auth/react");
-  const session = await getSession();
   const formData = new FormData();
   formData.append('file', file);
 
+  // 通过 API 路由获取签名头（客户端调用）
+  const adminHeaders = await generateAdminHeaders();
+
   const response = await fetch(`${BASE_URL}/upload/image`, {
     method: 'POST',
-    headers: {
-      'x-admin-email': session?.user?.email || '',
-    },
+    headers: adminHeaders,
     body: formData,
   });
 
@@ -73,7 +98,7 @@ async function uploadImage(file: File): Promise<{ url: string; publicId: string 
   return response.json();
 }
 
-// 3. 导出快捷方法
+// 导出快捷方法
 export const api = {
   get: (url: string, options?: RequestParam) => request(url, { ...options, method: 'GET' }),
   post: (url: string, body: any, options?: RequestParam) =>
