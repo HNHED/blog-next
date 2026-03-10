@@ -5,10 +5,18 @@ type RequestParam = RequestInit & { __needAuth?: boolean };
 async function request(endpoint: string, options: RequestParam = {}) {
   let adminEmail = '';
   const { __needAuth = false, headers: _headers = {}, ...data } = options
-  if (typeof window === 'undefined' && __needAuth) {
-    const { auth } = await import("@/auth");
-    const session = await auth();
-    adminEmail = session?.user?.email || '';
+  if (__needAuth) {
+    if (typeof window === 'undefined') {
+      // 服务端环境 (Server Component / Route Handler)
+      const { auth } = await import("@/auth");
+      const session = await auth();
+      adminEmail = session?.user?.email || '';
+    } else {
+      // 客户端环境 (Client Component)
+      const { getSession } = await import("next-auth/react");
+      const session = await getSession();
+      adminEmail = session?.user?.email || '';
+    }
   }
   const headers = {
     'Content-Type': 'application/json',
