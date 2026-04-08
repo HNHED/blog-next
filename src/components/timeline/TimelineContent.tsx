@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ArrowLeft, Calendar, FileText } from 'lucide-react';
 import { Post } from '@/types/post';
 import dynamic from 'next/dynamic';
+import { ContributionChart } from '@/components/common/ContributionChart';
 
 const CoverPreview = dynamic(() => import('@/components/cover/CoverPreview'), {
   ssr: false,
@@ -133,6 +134,11 @@ export default function TimelineContent({ posts }: TimelineContentProps) {
 
       {/* Timeline */}
       <main className="max-w-4xl mx-auto px-6 py-10">
+        {/* Contribution Chart */}
+        <div className="mb-12">
+          <ContributionChart />
+        </div>
+        
         {groupedPosts.length === 0 ? (
           <div className="text-center py-20">
             <FileText className="mx-auto text-gray-300 dark:text-gray-600 mb-4" size={48} />

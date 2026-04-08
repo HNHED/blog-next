@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { contributionService, ContributionData } from '@/services/contributionService';
 import dayjs from 'dayjs';
 
@@ -10,6 +11,7 @@ interface ContributionChartProps {
 }
 
 export const ContributionChart: React.FC<ContributionChartProps> = ({ className = '' }) => {
+  const t = useTranslations('contribution');
   const [contributionData, setContributionData] = useState<ContributionData[]>([]);
   const [stats, setStats] = useState<{ totalContributions: number; todayContributions: number; streak: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -69,7 +71,7 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({ className 
     fetchContributionData(selectedYear);
   }, [selectedYear]);
 
-  if (loading) return <div className="flex justify-center py-20 text-gray-400 italic">Loading activity...</div>;
+  if (loading) return <div className="flex justify-center py-20 text-gray-400 italic">{t('loading')}</div>;
 
   return (
     <div className={`
@@ -81,9 +83,10 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({ className 
       w-full mx-auto ${className}
     `}>
       {/* 头部信息 */}
-      <div className="flex sm:flex-row sm:items-center justify-between mb-6 gap-4">
-        <div className="flex items-center space-x-4">
-          <h3 className="text-lg font-bold text-gray-800 dark:text-white">Contribution Activity</h3>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
+        {/* 标题和年份选择 */}
+        <div className="flex items-center gap-3">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-white">{t('title')}</h3>
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
@@ -94,26 +97,33 @@ export const ContributionChart: React.FC<ContributionChartProps> = ({ className 
               return <option key={y} value={y}>{y}</option>;
             })}
           </select>
+        </div>
+
+        {/* 图例和统计信息 - 移动端垂直排列 */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+          {/* 图例 */}
           <div className="flex items-center justify-end space-x-2">
-            <span className="text-[11px] text-gray-400">Less</span>
+            <span className="text-[11px] text-gray-400">{t('less')}</span>
             {[0, 1, 2, 5, 10].map(v => (
               <div key={v} className={`w-3 h-3 rounded-sm ${getColor(v)}`} />
             ))}
-            <span className="text-[11px] text-gray-400">More</span>
+            <span className="text-[11px] text-gray-400">{t('more')}</span>
           </div>
+          
+          {/* 统计信息 */}
+          {stats && (
+            <div className="flex space-x-6">
+              <div className="flex flex-col items-end sm:items-center">
+                <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">{t('total')}</span>
+                <span className="text-lg font-mono text-gray-700 dark:text-gray-200">{stats.totalContributions}</span>
+              </div>
+              <div className="flex flex-col items-end sm:items-center">
+                <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">{t('streak')}</span>
+                <span className="text-lg font-mono text-gray-700 dark:text-gray-200">{stats.streak} {t('days')}</span>
+              </div>
+            </div>
+          )}
         </div>
-        {stats && (
-          <div className="flex space-x-6 sm:space-x-8">
-            <div className="flex flex-col items-end sm:items-center">
-              <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Total</span>
-              <span className="text-lg font-mono text-gray-700 dark:text-gray-200">{stats.totalContributions}</span>
-            </div>
-            <div className="flex flex-col items-end sm:items-center">
-              <span className="text-[10px] uppercase text-gray-400 font-bold tracking-wider">Streak</span>
-              <span className="text-lg font-mono text-gray-700 dark:text-gray-200">{stats.streak} days</span>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* 核心图表区域 */}

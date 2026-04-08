@@ -103,5 +103,15 @@
     "switch": "语言",
     "zh": "中文",
     "en": "English"
+  },
+  "contribution": {
+    "title": "贡献活动",
+    "loading": "加载活动数据...",
+    "less": "少",
+    "more": "多",
+    "total": "总计",
+    "streak": "连续",
+    "days": "天",
+    "today": "今日"
   }
 }

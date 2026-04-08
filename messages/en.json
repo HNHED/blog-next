@@ -103,5 +103,15 @@
     "switch": "Language",
     "zh": "中文",
     "en": "English"
+  },
+  "contribution": {
+    "title": "Contribution Activity",
+    "loading": "Loading activity data...",
+    "less": "Less",
+    "more": "More",
+    "total": "Total",
+    "streak": "Streak",
+    "days": "days",
+    "today": "Today"
   }
 }
