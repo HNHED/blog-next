@@ -137,7 +137,7 @@ export default function PostForm({ initialData, onSubmit, isSubmitting }: PostFo
 
 
   return (
-    <div className="flex flex-col h-screen bg-[#f8fafc] dark:bg-gray-900">
+    <div className="flex flex-col h-[calc(100vh-65px)] bg-[#f8fafc] dark:bg-gray-900">
       {/* 顶部工具栏 */}
       <header className="h-16 px-6 flex items-center justify-between bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border-b border-gray-200/60 dark:border-gray-700/60 z-20 shadow-sm">
         <div className="flex items-center gap-4 flex-1">
